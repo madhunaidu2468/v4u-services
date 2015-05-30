@@ -114,18 +114,13 @@ public class CasualityController {
 	}
 
 	
-			
-	@RequestMapping(value = "/query", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody CommonDataVO getCasualitysRequired(
-			@ModelAttribute(value = "casualityId") String casualityId,
-			@ModelAttribute(value = "personName") String personName,@ModelAttribute(value = "location") String location, @ModelAttribute(value = "disasterType") String disasterType) throws Exception {
-		
+	@RequestMapping(value = "/query",method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	@ResponseBody
+	public CommonDataVO getCasualitysRequired(@RequestBody CasualityDTO casualityDto)
+			throws Exception {		
 		List<Casuality> casualitys=new ArrayList<Casuality>();
-		int tempId=0;
-		if(!casualityId.isEmpty()){
-			tempId=Integer.parseInt(casualityId);
-		}
-		casualitys=casualityService.getCasualitysRequired(tempId,personName,location,disasterType);
+		
+		casualitys=casualityService.getCasualitysRequired(casualityDto.getCasualityId(),casualityDto.getDisasterId(),casualityDto.getPersonName(),casualityDto.getMyLocation(),casualityDto.getDisasterType());
 		List<CasualityDTO> casualityDtoList=DozerListMapping.mapList(casualitys, CasualityDTO.class);
 				
 		

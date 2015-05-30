@@ -21,4 +21,6 @@ public interface DisasterDAO {
 	public List<Disaster> getDisastersRequired(long id, String location,
 			String disasterType) throws We4UException;
 
+	public Disaster checkIfDisasterExists(DisasterDTO disasterDto) throws We4UException;
+	
 }

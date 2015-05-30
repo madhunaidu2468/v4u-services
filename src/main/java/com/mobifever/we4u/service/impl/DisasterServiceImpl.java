@@ -1,5 +1,8 @@
 package com.mobifever.we4u.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +25,7 @@ public class DisasterServiceImpl implements DisasterService {
 	private DisasterDAO disasterDao;
 
 	@Override
-	public String add(DisasterDTO disasterDto) throws We4UException {
+	public String add(DisasterDTO disasterDto) throws We4UException, ParseException {
 		int tempDisasterId = disasterDao.getDisasterId();
 		Disaster disaster = DozerListMapping.map(disasterDto, Disaster.class);
 		//Mapper mapper = new DozerBeanMapper();
@@ -31,6 +34,11 @@ public class DisasterServiceImpl implements DisasterService {
 			throw new We4UException(ServiceErrors.ltc_DISASTERIDNOTNULL);
 		}
 		disaster.setDisasterId(tempDisasterId);
+		disaster.setDisasterName(disasterDto.getDisasterType() + "at" + disasterDto.getLocation());
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		Calendar cal = Calendar.getInstance();
+		Date d=formatter.parse(cal.getTime().toString());
+		disaster.setTime(d.getTime());
 		return disasterDao.add(disaster);
 	}
 
@@ -59,6 +67,9 @@ public class DisasterServiceImpl implements DisasterService {
 		return disasterDao.getDisastersRequired(id, location, disasterType);
 	}
 
-	
+	@Override
+	public Disaster checkIfDisasterExists(DisasterDTO disasterDto) throws We4UException{
+		return disasterDao.checkIfDisasterExists(disasterDto);
+	}
 	
 }

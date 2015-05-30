@@ -9,11 +9,12 @@ public class CasualityDTO {
 
 
 	private Integer casualityId;
+	private Integer disasterId;
 	private String personName;
 	private String disasterType;
 	private String myLocation;
 	private String phoneNumber;
-	private Long date;
+	private Long time;
 	private List<String> statusOfPerson;
 	private String kindOfHelpNeeded;
 	
@@ -41,12 +42,7 @@ public class CasualityDTO {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	public Long getDate() {
-		return date;
-	}
-	public void setDate(Long date) {
-		this.date = date;
-	}
+	
 	public List<String> getStatusOfPerson() {
 		return statusOfPerson;
 	}
@@ -67,15 +63,30 @@ public class CasualityDTO {
 	public void setCasualityId(Integer casualityId) {
 		this.casualityId = casualityId;
 	}
+	
+	
+	public Long getTime() {
+		return time;
+	}
+	public void setTime(Long time) {
+		this.time = time;
+	}
+	public Integer getDisasterId() {
+		return disasterId;
+	}
+	public void setDisasterId(Integer disasterId) {
+		this.disasterId = disasterId;
+	}
 	@Override
 	public String toString() {
-		return "CasualityDTO [personName=" + personName + ", disasterType="
+		return "CasualityDTO [casualityId=" + casualityId + ", disasterId="
+				+ disasterId + ", personName=" + personName + ", disasterType="
 				+ disasterType + ", myLocation=" + myLocation
-				+ ", phoneNumber=" + phoneNumber + ", date=" + date
+				+ ", phoneNumber=" + phoneNumber + ", time=" + time
 				+ ", statusOfPerson=" + statusOfPerson + ", kindOfHelpNeeded="
 				+ kindOfHelpNeeded + "]";
 	}
-	
-	
+
+
 	
 }

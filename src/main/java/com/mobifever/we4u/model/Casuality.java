@@ -13,6 +13,7 @@ public class Casuality {
 	private BigInteger _id;
 	
 	private Integer casualityId;
+	private Integer disasterId;
 	private String personName;
 	private String disasterType;
 	private String myLocation;
@@ -71,13 +72,19 @@ public class Casuality {
 				+ ", disasterType=" + disasterType + ", myLocation="
 				+ myLocation + ", phoneNumber=" + phoneNumber + ", date="
 				+ date + ", statusOfPerson=" + statusOfPerson
-				+ ", kindOfHelpNeeded=" + kindOfHelpNeeded + "]";
+				+ ", kindOfHelpNeeded=" + kindOfHelpNeeded + ", disasterId="+disasterId+"]";
 	}
 	public Integer getCasualityId() {
 		return casualityId;
 	}
 	public void setCasualityId(Integer casualityId) {
 		this.casualityId = casualityId;
+	}
+	public Integer getDisasterId() {
+		return disasterId;
+	}
+	public void setDisasterId(Integer disasterId) {
+		this.disasterId = disasterId;
 	}
 	
 	

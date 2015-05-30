@@ -19,6 +19,6 @@ public interface CasualityDAO {
 
 	public List<Casuality> getCasualitys() throws We4UException;
 
-	public List<Casuality> getCasualitysRequired(long casualityId, String personName, String location,
+	public List<Casuality> getCasualitysRequired(int casualityId, int disasterId, String personName, String location,
 			String disasterType) throws We4UException;
 }

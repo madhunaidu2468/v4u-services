@@ -72,7 +72,7 @@ public class CasualityDaoImpl extends BaseDaoImpl  implements CasualityDAO {
 	}
 
 	@Override
-	public List<Casuality> getCasualitysRequired(long casualityId,
+	public List<Casuality> getCasualitysRequired(int casualityId,int disasterId,
 			String personName, String location,
 			String disasterType) throws We4UException {
 		Query searchQuery = new Query();
@@ -82,6 +82,9 @@ public class CasualityDaoImpl extends BaseDaoImpl  implements CasualityDAO {
 		if(casualityId != 0){
 		searchQuery.addCriteria(Criteria.where("casualityId").is(casualityId));
 		}
+		if(disasterId != 0){
+			searchQuery.addCriteria(Criteria.where("disasterId").is(disasterId));
+			}
 		if(!personName.isEmpty()){
 			searchQuery.addCriteria(Criteria.where("personName").is(personName));
 			}

@@ -27,12 +27,9 @@ public class DisasterDaoImpl extends BaseDaoImpl implements DisasterDAO {
 	@Override
 	public String add(Disaster disaster) throws We4UException {
 		String result=null;
-		try {
 			save(disaster);
 			result = disaster.getDisasterId().toString();
-		} catch (Exception e) {
-			throw new We4UException(e.getMessage());
-		}
+		
 		return result;
 	}
 
@@ -51,21 +48,15 @@ public class DisasterDaoImpl extends BaseDaoImpl implements DisasterDAO {
 	public Disaster getDisasterDetails(int disasterId) throws We4UException {
 		Query searchQuery = new Query(Criteria.where("disasterId").is(disasterId));	
 
-		try {
 			return (Disaster) load(searchQuery);
-		} catch (Exception e) {
-			throw new We4UException(e.getMessage());
-		}
+		
 	}
 
 	@Override
 	public List<Disaster> getDisasters() throws We4UException {
 		Query searchQuery = new Query();	
-		try {
 			return loadAll(searchQuery);
-		} catch (Exception e) {
-			throw new We4UException(e.getMessage());
-		}
+		
 	}
 
 	@Override
@@ -82,12 +73,26 @@ public class DisasterDaoImpl extends BaseDaoImpl implements DisasterDAO {
 		if(!disasterType.isEmpty()){
 			searchQuery.addCriteria(Criteria.where("disasterType").is(disasterType));
 			}
-		try {
 			return loadAll(searchQuery);
-				
-		} catch (Exception e) {
-			throw new We4UException(e.getMessage());
-		}
+		
 	}
+
+	@Override
+	public Disaster checkIfDisasterExists(DisasterDTO disasterDto) throws We4UException {
+		Query searchQuery = new Query();
+		if(!disasterDto.getLocation().isEmpty()){
+		searchQuery.addCriteria(Criteria.where("location").is(disasterDto.getLocation()));
+		}
+		if(!disasterDto.getDisasterType().isEmpty()){
+			searchQuery.addCriteria(Criteria.where("disasterType").is(disasterDto.getDisasterType()));
+			}
+		if(disasterDto.getTime() != 0){
+			searchQuery.addCriteria(Criteria.where("time").is(disasterDto.getTime()));
+			}
+			return (Disaster) load(searchQuery);
+			
+	}
+	
+	
 
 }
