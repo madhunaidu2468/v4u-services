@@ -2,6 +2,7 @@ package com.mobifever.we4u.service.impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +28,7 @@ public class DisasterServiceImpl implements DisasterService {
 	@Override
 	public String add(DisasterDTO disasterDto) throws We4UException, ParseException {
 		int tempDisasterId = disasterDao.getDisasterId();
+		List<Integer> usersList=new ArrayList<Integer>();
 		Disaster disaster = DozerListMapping.map(disasterDto, Disaster.class);
 		//Mapper mapper = new DozerBeanMapper();
 		//mapper.map(disasterDto, disaster);
@@ -34,11 +36,13 @@ public class DisasterServiceImpl implements DisasterService {
 			throw new We4UException(ServiceErrors.ltc_DISASTERIDNOTNULL);
 		}
 		disaster.setDisasterId(tempDisasterId);
+		disaster.setAffectedUsers(usersList);
 		disaster.setDisasterName(disasterDto.getDisasterType() + "at" + disasterDto.getLocation());
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		Calendar cal = Calendar.getInstance();
-		Date d=formatter.parse(cal.getTime().toString());
-		disaster.setTime(d.getTime());
+		
+		Date today = new Date();
+		Date todayWithZeroTime =formatter.parse(formatter.format(today));
+		disaster.setTime(todayWithZeroTime.getTime());
 		return disasterDao.add(disaster);
 	}
 
@@ -70,6 +74,11 @@ public class DisasterServiceImpl implements DisasterService {
 	@Override
 	public Disaster checkIfDisasterExists(DisasterDTO disasterDto) throws We4UException{
 		return disasterDao.checkIfDisasterExists(disasterDto);
+	}
+
+	@Override
+	public void addMemberToDisaster(Integer userId, int disasterId) throws We4UException {
+		disasterDao.addMemberToDisaster(userId,disasterId);
 	}
 	
 }

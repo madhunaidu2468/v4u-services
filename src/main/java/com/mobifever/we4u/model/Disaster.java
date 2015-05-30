@@ -19,6 +19,8 @@ public class Disaster {
 	private Integer numberOfCasualities;
 	private List<String> helplineNumbers;
 	private String disasterName;
+	private List<Integer> affectedUsers;
+	
 	public Integer getDisasterId() {
 		return disasterId;
 	}
@@ -68,6 +70,12 @@ public class Disaster {
 				+ ", numberOfCasualities=" + numberOfCasualities
 				+ ", helplineNumbers=" + helplineNumbers + ", disasterName="
 				+ disasterName + "]";
+	}
+	public List<Integer> getAffectedUsers() {
+		return affectedUsers;
+	}
+	public void setAffectedUsers(List<Integer> affectedUsers) {
+		this.affectedUsers = affectedUsers;
 	}
 	
 

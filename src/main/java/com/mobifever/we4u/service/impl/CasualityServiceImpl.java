@@ -2,7 +2,6 @@ package com.mobifever.we4u.service.impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -13,11 +12,14 @@ import com.mobifever.we4u.constant.ServiceErrors;
 import com.mobifever.we4u.dao.CasualityDAO;
 import com.mobifever.we4u.dto.CasualityDTO;
 import com.mobifever.we4u.dto.DisasterDTO;
+import com.mobifever.we4u.dto.UserDTO;
 import com.mobifever.we4u.exception.We4UException;
 import com.mobifever.we4u.model.Casuality;
 import com.mobifever.we4u.model.Disaster;
+import com.mobifever.we4u.model.User;
 import com.mobifever.we4u.service.CasualityService;
 import com.mobifever.we4u.service.DisasterService;
+import com.mobifever.we4u.service.UserService;
 import com.mobifever.we4u.utils.DozerListMapping;
 
 @Service
@@ -29,6 +31,9 @@ public class CasualityServiceImpl implements CasualityService {
 	@Autowired
 	private DisasterService disasterService;
 
+	@Autowired
+	private UserService userService;
+	
 	@Override
 	public String add(CasualityDTO casualityDto) throws We4UException, NumberFormatException, ParseException {
 		int tempCasualityId = casualityDao.getCasualityId();
@@ -43,19 +48,39 @@ public class CasualityServiceImpl implements CasualityService {
 		disasterDto.setDisasterType(casualityDto.getDisasterType());
 		disasterDto.setLocation(casualityDto.getMyLocation());
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		Calendar cal = Calendar.getInstance();
-		Date d=formatter.parse(cal.getTime().toString());
-		disasterDto.setTime(d.getTime());
+		Date today = new Date();
+		Date todayWithZeroTime =formatter.parse(formatter.format(today));
+		casualityDto.setTime(todayWithZeroTime.getTime());
 		disasterDto.setTime(casualityDto.getTime());
 		Disaster disaster=disasterService.checkIfDisasterExists(disasterDto);
+		int disId=0;
 		if(disaster != null){
 			casuality.setDisasterId(disaster.getDisasterId());
+			disId=disaster.getDisasterId();
 		}else{
-			casuality.setDisasterId(Integer.parseInt(disasterService.add(disasterDto)));
+			disasterDto.setDisasterId(0);
+			disId=Integer.parseInt(disasterService.add(disasterDto));
+			casuality.setDisasterId(disId);
 		}
+		addUserToDisaster(casualityDto,disId);
 		return casualityDao.add(casuality);
 	}
 
+	public void addUserToDisaster(CasualityDTO casualityDto, int disasterId) throws We4UException, ParseException{
+		User user=userService.checkUserExists(casualityDto.getPhoneNumber());
+		if(user != null){
+			disasterService.addMemberToDisaster(user.getUserId(),disasterId);
+		}else{
+			UserDTO userDto=new UserDTO();
+			userDto.setUserId(0);
+			userDto.setPhoneNumber(casualityDto.getPhoneNumber());
+			userDto.setLocation(casualityDto.getMyLocation());
+			userDto.setName(casualityDto.getPersonName());
+			String userId=userService.add(userDto);
+			disasterService.addMemberToDisaster(Integer.parseInt(userId),disasterId);
+		}
+	}
+	
 	@Override
 	public void update(CasualityDTO casuality) throws We4UException {
 		// TODO Auto-generated method stub

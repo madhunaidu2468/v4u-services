@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.mobifever.we4u.dao.DisasterDAO;
@@ -23,13 +24,13 @@ public class DisasterDaoImpl extends BaseDaoImpl implements DisasterDAO {
 	public Class getEntityClass() {
 		return Disaster.class;
 	}
-	
+
 	@Override
 	public String add(Disaster disaster) throws We4UException {
-		String result=null;
-			save(disaster);
-			result = disaster.getDisasterId().toString();
-		
+		String result = null;
+		save(disaster);
+		result = disaster.getDisasterId().toString();
+
 		return result;
 	}
 
@@ -46,53 +47,68 @@ public class DisasterDaoImpl extends BaseDaoImpl implements DisasterDAO {
 
 	@Override
 	public Disaster getDisasterDetails(int disasterId) throws We4UException {
-		Query searchQuery = new Query(Criteria.where("disasterId").is(disasterId));	
+		Query searchQuery = new Query(Criteria.where("disasterId").is(
+				disasterId));
 
-			return (Disaster) load(searchQuery);
-		
+		return (Disaster) load(searchQuery);
+
 	}
 
 	@Override
 	public List<Disaster> getDisasters() throws We4UException {
-		Query searchQuery = new Query();	
-			return loadAll(searchQuery);
-		
+		Query searchQuery = new Query();
+		return loadAll(searchQuery);
+
 	}
 
 	@Override
 	public List<Disaster> getDisastersRequired(long id, String location,
 			String disasterType) throws We4UException {
 		Query searchQuery = new Query();
-		location=location.trim();
-		disasterType=disasterType.trim();
-		if(id != 0){
-		searchQuery.addCriteria(Criteria.where("disasterId").is(id));
-		}if(!location.isEmpty()){
-		searchQuery.addCriteria(Criteria.where("location").is(location));
+		location = location.trim();
+		disasterType = disasterType.trim();
+		if (id != 0) {
+			searchQuery.addCriteria(Criteria.where("disasterId").is(id));
 		}
-		if(!disasterType.isEmpty()){
-			searchQuery.addCriteria(Criteria.where("disasterType").is(disasterType));
-			}
-			return loadAll(searchQuery);
-		
+		if (!location.isEmpty()) {
+			searchQuery.addCriteria(Criteria.where("location").is(location));
+		}
+		if (!disasterType.isEmpty()) {
+			searchQuery.addCriteria(Criteria.where("disasterType").is(
+					disasterType));
+		}
+		return loadAll(searchQuery);
+
 	}
 
 	@Override
-	public Disaster checkIfDisasterExists(DisasterDTO disasterDto) throws We4UException {
+	public Disaster checkIfDisasterExists(DisasterDTO disasterDto)
+			throws We4UException {
 		Query searchQuery = new Query();
-		if(!disasterDto.getLocation().isEmpty()){
-		searchQuery.addCriteria(Criteria.where("location").is(disasterDto.getLocation()));
+		if (!disasterDto.getLocation().isEmpty()) {
+			searchQuery.addCriteria(Criteria.where("location").is(
+					disasterDto.getLocation()));
 		}
-		if(!disasterDto.getDisasterType().isEmpty()){
-			searchQuery.addCriteria(Criteria.where("disasterType").is(disasterDto.getDisasterType()));
-			}
-		if(disasterDto.getTime() != 0){
-			searchQuery.addCriteria(Criteria.where("time").is(disasterDto.getTime()));
-			}
-			return (Disaster) load(searchQuery);
-			
+		if (!disasterDto.getDisasterType().isEmpty()) {
+			searchQuery.addCriteria(Criteria.where("disasterType").is(
+					disasterDto.getDisasterType()));
+		}
+		if (disasterDto.getTime() != 0) {
+			searchQuery.addCriteria(Criteria.where("time").is(
+					disasterDto.getTime()));
+		}
+		return (Disaster) load(searchQuery);
+
 	}
-	
-	
+
+	@Override
+	public void addMemberToDisaster(Integer userId, int disasterId) throws We4UException {
+		Query searchUpdateQuery = new Query();
+		searchUpdateQuery.addCriteria(Criteria.where("disasterId").is(
+				disasterId));
+		Update update = new Update();
+		update.push("affectedUsers", userId);
+		update(update, searchUpdateQuery);
+	}
 
 }

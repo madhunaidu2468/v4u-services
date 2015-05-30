@@ -15,6 +15,8 @@ public class DisasterDTO {
 	private Integer numberOfCasualities;
 	private List<String> helplineNumbers;
 	private String disasterName;
+	private List<Integer> affectedUsers;
+	
 	public Integer getDisasterId() {
 		return disasterId;
 	}
@@ -57,14 +59,22 @@ public class DisasterDTO {
 	public void setDisasterName(String disasterName) {
 		this.disasterName = disasterName;
 	}
+	
+	
+	public List<Integer> getAffectedUsers() {
+		return affectedUsers;
+	}
+	public void setAffectedUsers(List<Integer> affectedUsers) {
+		this.affectedUsers = affectedUsers;
+	}
 	@Override
 	public String toString() {
 		return "DisasterDTO [disasterId=" + disasterId + ", disasterType="
 				+ disasterType + ", location=" + location + ", time=" + time
 				+ ", numberOfCasualities=" + numberOfCasualities
 				+ ", helplineNumbers=" + helplineNumbers + ", disasterName="
-				+ disasterName + "]";
+				+ disasterName + ", affectedUsers=" + affectedUsers + "]";
 	}
-	
-	
+
+
 }

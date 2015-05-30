@@ -22,5 +22,7 @@ public interface DisasterDAO {
 			String disasterType) throws We4UException;
 
 	public Disaster checkIfDisasterExists(DisasterDTO disasterDto) throws We4UException;
+
+	public void addMemberToDisaster(Integer userId, int disasterId) throws We4UException;
 	
 }
