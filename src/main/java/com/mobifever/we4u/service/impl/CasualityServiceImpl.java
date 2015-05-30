@@ -34,6 +34,8 @@ public class CasualityServiceImpl implements CasualityService {
 	@Autowired
 	private UserService userService;
 	
+
+	
 	@Override
 	public String add(CasualityDTO casualityDto) throws We4UException, NumberFormatException, ParseException {
 		int tempCasualityId = casualityDao.getCasualityId();
@@ -107,4 +109,5 @@ public class CasualityServiceImpl implements CasualityService {
 		return casualityDao.getCasualitysRequired(casualityId,disasterId,  personName, location, disasterType);
 	}
 
+	
 }

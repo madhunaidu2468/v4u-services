@@ -7,6 +7,7 @@ package com.mobifever.we4u.constant;
 		public String CASUALITY="/casuality";
 		public String REPORTING="/report";
 		public String USERS="/user";
+		public String SMS="/sms";
 		
 	}
 

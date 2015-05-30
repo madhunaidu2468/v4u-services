@@ -16,6 +16,7 @@ public class CasualityDTO {
 	private String phoneNumber;
 	private Long time;
 	private List<String> statusOfPerson;
+	
 	private String kindOfHelpNeeded;
 	
 	public String getPersonName() {

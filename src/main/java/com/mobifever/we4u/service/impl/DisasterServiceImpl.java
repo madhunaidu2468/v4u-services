@@ -37,7 +37,7 @@ public class DisasterServiceImpl implements DisasterService {
 		}
 		disaster.setDisasterId(tempDisasterId);
 		disaster.setAffectedUsers(usersList);
-		disaster.setDisasterName(disasterDto.getDisasterType() + "at" + disasterDto.getLocation());
+		disaster.setDisasterName(capitalize(disasterDto.getDisasterType()) + " At " + capitalize(disasterDto.getLocation()));
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		
 		Date today = new Date();
@@ -81,4 +81,7 @@ public class DisasterServiceImpl implements DisasterService {
 		disasterDao.addMemberToDisaster(userId,disasterId);
 	}
 	
+	private String capitalize(final String line) {
+		   return Character.toUpperCase(line.charAt(0)) + line.substring(1);
+		}
 }

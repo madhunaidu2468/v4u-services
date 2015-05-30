@@ -10,7 +10,7 @@ import com.mobifever.we4u.model.Casuality;
 public interface CasualityService {
 
 	public String add(CasualityDTO casualityDto) throws We4UException, NumberFormatException, ParseException;
-
+	
 	public void update(CasualityDTO casualityDto) throws We4UException;
 
 	public Casuality getCasualityDetails(int casualityId) throws We4UException;
