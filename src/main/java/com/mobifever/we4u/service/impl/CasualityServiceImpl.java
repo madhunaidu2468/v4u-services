@@ -66,6 +66,7 @@ public class CasualityServiceImpl implements CasualityService {
 			disasterDto.setDisasterId(0);
 			disasterDto.setHelplineNumbers(helpLineDao.getALLHelpLinesForLocation(casualityDto.getMyLocation()));
 			disId=Integer.parseInt(disasterService.add(disasterDto));
+			disasterDto.setNumberOfCasualities(1);
 			casuality.setDisasterId(disId);
 		}
 		addUserToDisaster(casualityDto,disId);
