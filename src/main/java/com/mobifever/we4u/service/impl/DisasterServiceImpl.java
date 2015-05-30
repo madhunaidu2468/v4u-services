@@ -47,9 +47,8 @@ public class DisasterServiceImpl implements DisasterService {
 	}
 
 	@Override
-	public void update(DisasterDTO disaster) throws We4UException {
-		// TODO Auto-generated method stub
-
+	public void update(Disaster disasterDto) throws We4UException {
+		 disasterDao.update(disasterDto);
 	}
 
 	@Override

@@ -11,7 +11,7 @@ public interface DisasterService {
 
 	public String add(DisasterDTO disasterDto) throws We4UException, ParseException;
 
-	public void update(DisasterDTO disasterDto) throws We4UException;
+	public void update(Disaster disaster) throws We4UException;
 
 	public Disaster getDisasterDetails(int disasterId) throws We4UException;
 

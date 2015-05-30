@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.mobifever.we4u.constant.ServiceErrors;
 import com.mobifever.we4u.dao.CasualityDAO;
+import com.mobifever.we4u.dao.HelplineDAO;
 import com.mobifever.we4u.dto.CasualityDTO;
 import com.mobifever.we4u.dto.DisasterDTO;
 import com.mobifever.we4u.dto.UserDTO;
@@ -34,7 +35,8 @@ public class CasualityServiceImpl implements CasualityService {
 	@Autowired
 	private UserService userService;
 	
-
+	@Autowired
+	HelplineDAO helpLineDao;
 	
 	@Override
 	public String add(CasualityDTO casualityDto) throws We4UException, NumberFormatException, ParseException {
@@ -59,8 +61,10 @@ public class CasualityServiceImpl implements CasualityService {
 		if(disaster != null){
 			casuality.setDisasterId(disaster.getDisasterId());
 			disId=disaster.getDisasterId();
+			disasterService.update(disaster);
 		}else{
 			disasterDto.setDisasterId(0);
+			disasterDto.setHelplineNumbers(helpLineDao.getALLHelpLinesForLocation(casualityDto.getMyLocation()));
 			disId=Integer.parseInt(disasterService.add(disasterDto));
 			casuality.setDisasterId(disId);
 		}

@@ -10,8 +10,6 @@ public interface DisasterDAO {
 
 	public String add(Disaster disaster) throws We4UException;
 
-	public void update(Disaster disaster) throws We4UException;
-
 	public Integer getDisasterId() throws We4UException;
 
 	public Disaster getDisasterDetails(int disasterId) throws We4UException;
@@ -24,5 +22,7 @@ public interface DisasterDAO {
 	public Disaster checkIfDisasterExists(DisasterDTO disasterDto) throws We4UException;
 
 	public void addMemberToDisaster(Integer userId, int disasterId) throws We4UException;
+
+	public void update(Disaster disasterDto) throws We4UException;
 	
 }

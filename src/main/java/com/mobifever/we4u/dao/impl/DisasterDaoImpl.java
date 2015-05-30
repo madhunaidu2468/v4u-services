@@ -36,8 +36,17 @@ public class DisasterDaoImpl extends BaseDaoImpl implements DisasterDAO {
 
 	@Override
 	public void update(Disaster disaster) throws We4UException {
-		// TODO Auto-generated method stub
-
+		Query searchUpdateQuery = new Query();
+		searchUpdateQuery.addCriteria(Criteria.where("disasterId").is(
+				disaster.getDisasterId()));
+		Disaster d=getDisasterDetails(disaster.getDisasterId());
+		if(d !=null){
+			int gg=disaster.getNumberOfCasualities();
+			gg=gg++;
+		Update update = new Update();
+		update.set("numberOfCasualities", gg);
+		update(update, searchUpdateQuery);
+		}
 	}
 
 	@Override
