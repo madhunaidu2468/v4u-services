@@ -1,9 +1,12 @@
 package com.mobifever.we4u.service.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import antlr.collections.List;
 
 import com.mobifever.we4u.constant.Constants;
 import com.mobifever.we4u.constant.ServiceErrors;
@@ -59,10 +62,15 @@ public class SMSServiceImpl implements SMSService {
 	}
 
 	public String sendViaSMSHorizon(SMSBean sms) {
+		ArrayList<String> toList=new ArrayList<String>();
+		toList.add("9986512468");
+		SMSBean smsBean=new SMSBean();
+		smsBean.setToList(toList);
+		smsBean.setMessage("hello testing api");
 		RestTemplate restTemplate = new RestTemplate();
 		String response = restTemplate.getForObject(
 				Constants.SMS_HORIZON_BASE, String.class,sms.getToList()
-						.toString(), sms.getMessage());
+						.toString().trim(), sms.getMessage());
 		return response;
 	}
 

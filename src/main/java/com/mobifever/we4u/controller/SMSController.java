@@ -114,7 +114,7 @@ public class SMSController {
 			List<String> helplineNumbers=helpLineDao.getALLHelpLinesForLocation(casualityDTO.getMyLocation());
 			List toList=new ArrayList<String>();
 			toList.add(from);
-			smsBean=new SMSBean(toList,helplineNumbers.toString(),"smshorizon");
+			smsBean=new SMSBean(toList,"Helpline Number: "+helplineNumbers.toString().replace("[", "").replace("]", ""),"smshorizon");
 			smsService.sendSMS(smsBean);
 		}
 	}

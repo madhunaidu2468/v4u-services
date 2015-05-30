@@ -89,7 +89,7 @@ public class CasualityDaoImpl extends BaseDaoImpl  implements CasualityDAO {
 			searchQuery.addCriteria(Criteria.where("personName").is(personName));
 			}
 		if(!location.isEmpty()){
-			searchQuery.addCriteria(Criteria.where("location").is(location));
+			searchQuery.addCriteria(Criteria.where("myLocation").is(location));
 			}
 		if(!disasterType.isEmpty()){
 			searchQuery.addCriteria(Criteria.where("disasterType").is(disasterType));

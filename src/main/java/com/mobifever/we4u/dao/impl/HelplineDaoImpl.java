@@ -1,5 +1,6 @@
 package com.mobifever.we4u.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -37,7 +38,12 @@ public class HelplineDaoImpl extends BaseDaoImpl implements HelplineDAO {
 		if (!location.isEmpty()) {
 			searchQuery.addCriteria(Criteria.where("location").is(location));
 		}
-		return loadAll(searchQuery);
+		List<Helpline> helplines=loadAll(searchQuery);
+		List<String> helpL=new ArrayList<String>();
+		for (Helpline helpline : helplines) {
+			helpL.addAll(helpline.getHelpLineNumbers());
+		}
+		return helpL;
 	}
 
 	@Override
@@ -49,7 +55,12 @@ public class HelplineDaoImpl extends BaseDaoImpl implements HelplineDAO {
 			searchQuery.addCriteria(Criteria.where("disasterType").is(
 					disasterType));
 		}
-		return loadAll(searchQuery);
+		List<Helpline> helplines=loadAll(searchQuery);
+		List<String> helpL=new ArrayList<String>();
+		for (Helpline helpline : helplines) {
+			helpL.addAll(helpline.getHelpLineNumbers());
+		}
+		return helpL;
 	}
 
 
