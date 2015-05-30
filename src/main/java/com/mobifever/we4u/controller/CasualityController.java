@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mobifever.we4u.constant.Constants;
 import com.mobifever.we4u.constant.ControllerMapping;
+import com.mobifever.we4u.dao.HelplineDAO;
 import com.mobifever.we4u.dao.UserDAO;
 import com.mobifever.we4u.dto.CasualityDTO;
 import com.mobifever.we4u.dto.UserDTO;
@@ -39,6 +40,8 @@ public class CasualityController {
 	@Autowired
 	private DisasterService disasterService;
 	
+	@Autowired
+	HelplineDAO helpLineDao;
 	
 
 	private StatusVO statusVO;
@@ -50,9 +53,10 @@ public class CasualityController {
 	public CommonDataVO addCasuality(@RequestBody CasualityDTO casualityDto)
 			throws Exception {
 		String result = null;
-
+		List<String> helplineNumbers=new ArrayList<String>();
 		if (casualityDto != null) {
 			result = casualityService.add(casualityDto);
+			helplineNumbers=helpLineDao.getALLHelpLinesForLocation(casualityDto.getMyLocation());
 		}
 		if (result != null) {
 			statusVO = new StatusVO(Constants.ltc_SUCCESSCODE,
@@ -62,7 +66,7 @@ public class CasualityController {
 			statusVO = new StatusVO(Constants.ltc_FAILURECODE,
 					Constants.ltc_RESPONSECODEFAILURE, result, null);
 		}
-		commonDataVO = new CommonDataVO(statusVO);
+		commonDataVO = new CommonDataVO(helplineNumbers,null,statusVO);
 		return commonDataVO;
 	}
 	
